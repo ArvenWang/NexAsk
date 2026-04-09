@@ -1,0 +1,100 @@
+{
+  "schema_version": "0.1",
+  "id": "compress",
+  "name": "压缩",
+  "version": "0.1.0",
+  "display": {
+    "toolbar_title": "压缩",
+    "settings_title": "启用压缩动作",
+    "result_title": "文件压缩",
+    "icon": "archivebox",
+    "category": "files",
+    "priority_tier": "recommended"
+  },
+  "description": {
+    "summary": "压缩选中的文件，按类型调用对应压缩工具并输出到统一目录。",
+    "when_to_use": [
+      "在 Finder 中选中了文件或文件夹",
+      "需要快速压缩图片等可处理文件",
+      "希望把处理后的文件统一导出到一个新目录"
+    ],
+    "not_for": [
+      "处理纯文本内容",
+      "生成聊天回复",
+      "压缩当前工具链不支持的文件类型"
+    ]
+  },
+  "input": {
+    "supported_contexts": [
+      "file_selection"
+    ],
+    "preferred_content_types": [
+      "file"
+    ],
+    "requires_nonempty_selection": true
+  },
+  "routing": {
+    "intent_hints": [
+      "compress",
+      "file_compress",
+      "image_compress",
+      "pdf_compress"
+    ],
+    "content_hints": [
+      "image_file",
+      "file_selection"
+    ],
+    "priority_rules": {
+      "image_file": 0.99,
+      "file_selection": 0.76
+    },
+    "fallback_rank": 6
+  },
+  "execution": {
+    "mode": "tool_augmented",
+    "tools": [
+      "image_compress",
+      "pdf_compress"
+    ],
+    "streaming": true,
+    "supports_followup": false,
+    "safe_to_interrupt": true,
+    "instruction_file": "instruction.md"
+  },
+  "result": {
+    "type": "summary_with_cards",
+    "supports_copy": false,
+    "supports_replace": false,
+    "supports_open_primary": false,
+    "supports_writeback": false,
+    "supports_regenerate": false,
+    "supports_footer": false,
+    "supports_action_cards": true
+  },
+  "lifecycle": {
+    "show_loading_in_result_window": true,
+    "hide_status_on_first_delta": false,
+    "reveal_footer_after_completion": false,
+    "defer_supplements_until_content_complete": false
+  },
+  "metadata": {
+    "category": "files",
+    "tags": [
+      "files",
+      "compression",
+      "batch"
+    ],
+    "experimental": true,
+    "built_in": true,
+    "stage": "local"
+  },
+  "settings": {
+    "default_enabled": true,
+    "user_configurable": true,
+    "stage": "local"
+  },
+  "billing": {
+    "class": "free",
+    "required_tier": "free"
+  }
+}

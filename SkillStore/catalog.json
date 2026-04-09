@@ -1,0 +1,52 @@
+[
+  {
+    "skill_id": "summarize",
+    "version": "1.0.0",
+    "manifest_summary": {
+      "id": "summarize",
+      "name": "总结",
+      "version": "1.0.0",
+      "author": "NexHub",
+      "summary": "把一段选中文本压缩成结构清晰、可快速吸收的短总结。",
+      "icon": "text.alignleft",
+      "supported_contexts": ["selected_text"],
+      "locality": "cloud_only",
+      "billing_class": "pro_included",
+      "required_tier": "pro",
+      "tags": ["writing", "summary", "official"],
+      "vendor": "nexhub",
+      "priority_tier": "recommended"
+    },
+    "icon_url": null,
+    "package_url": "packages/summarize-1.0.0.nexhubskill",
+    "signature_url": null,
+    "release_notes": "首发版本，适合快速读长段落、会议记录和说明文。",
+    "min_app_version": "0.2.0",
+    "is_featured": true
+  },
+  {
+    "skill_id": "rewrite",
+    "version": "1.0.0",
+    "manifest_summary": {
+      "id": "rewrite",
+      "name": "改写",
+      "version": "1.0.0",
+      "author": "NexHub",
+      "summary": "把原文改写得更清晰、自然、适合直接发送或继续编辑。",
+      "icon": "wand.and.stars",
+      "supported_contexts": ["selected_text"],
+      "locality": "cloud_only",
+      "billing_class": "pro_included",
+      "required_tier": "pro",
+      "tags": ["writing", "rewrite", "official"],
+      "vendor": "nexhub",
+      "priority_tier": "recommended"
+    },
+    "icon_url": null,
+    "package_url": "packages/rewrite-1.0.0.nexhubskill",
+    "signature_url": null,
+    "release_notes": "首发版本，适合润色消息、文案和短段落表达。",
+    "min_app_version": "0.2.0",
+    "is_featured": true
+  }
+]

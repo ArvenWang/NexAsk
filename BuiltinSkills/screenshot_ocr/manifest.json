@@ -1,0 +1,79 @@
+{
+  "schema_version": "0.1",
+  "id": "screenshot_ocr",
+  "name": "文字识别",
+  "version": "0.1.0",
+  "display": {
+    "toolbar_title": "OCR",
+    "result_title": "OCR 结果",
+    "icon": "text.viewfinder",
+    "category": "image",
+    "priority_tier": "anchor"
+  },
+  "description": {
+    "summary": "识别当前截图中的文字，并输出可复制文本。",
+    "when_to_use": [
+      "想把截图里的文字快速提取出来",
+      "想复制图片中的标题、段落、按钮文案或表格内容",
+      "截图完成后，希望直接继续翻译、解释或整理文字"
+    ],
+    "not_for": [
+      "需要版面还原",
+      "需要保持原始图片样式导出"
+    ]
+  },
+  "input": {
+    "supported_contexts": ["screenshot_region", "image_capture"],
+    "preferred_content_types": ["image"],
+    "requires_nonempty_selection": true
+  },
+  "routing": {
+    "intent_hints": ["ocr", "text_recognition", "extract_text", "image_ocr"],
+    "content_hints": ["image_capture", "image_file"],
+    "priority_rules": {
+      "image_capture": 0.99,
+      "image_file": 0.94
+    },
+    "fallback_rank": 0
+  },
+  "execution": {
+    "mode": "local_only",
+    "tools": [],
+    "streaming": false,
+    "supports_followup": false,
+    "safe_to_interrupt": true,
+    "instruction_file": "instruction.md"
+  },
+  "result": {
+    "type": "plain_text",
+    "supports_copy": true,
+    "supports_replace": false,
+    "supports_open_primary": false,
+    "supports_writeback": false,
+    "supports_regenerate": false,
+    "supports_footer": true,
+    "supports_action_cards": false
+  },
+  "lifecycle": {
+    "show_loading_in_result_window": true,
+    "hide_status_on_first_delta": true,
+    "reveal_footer_after_completion": true,
+    "defer_supplements_until_content_complete": true
+  },
+  "metadata": {
+    "category": "image",
+    "tags": ["image", "ocr", "text", "screenshot"],
+    "experimental": false,
+    "built_in": true,
+    "stage": "local"
+  },
+  "settings": {
+    "default_enabled": true,
+    "user_configurable": false,
+    "stage": "local"
+  },
+  "billing": {
+    "class": "free",
+    "required_tier": "free"
+  }
+}

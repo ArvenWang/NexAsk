@@ -1,0 +1,84 @@
+{
+  "schema_version": "0.1",
+  "id": "explain",
+  "name": "解释",
+  "version": "0.1.0",
+  "display": {
+    "toolbar_title": "解释",
+    "settings_title": "启用解释动作",
+    "result_title": "解释结果",
+    "icon": "text.magnifyingglass",
+    "category": "understanding",
+    "priority_tier": "recommended"
+  },
+  "description": {
+    "summary": "用简短自然的话解释选中文本是什么、为什么重要。",
+    "when_to_use": [
+      "看不懂一个词、短语、模型名、功能名或产品名",
+      "需要一句话先理解它是什么",
+      "需要比翻译更偏解释的结果"
+    ],
+    "not_for": [
+      "找源头入口",
+      "生成回复"
+    ]
+  },
+  "input": {
+    "supported_contexts": ["selected_text", "screenshot_region", "image_capture"],
+    "preferred_content_types": ["text", "image"],
+    "min_length": 1,
+    "max_length": 6000,
+    "requires_nonempty_selection": true
+  },
+  "routing": {
+    "intent_hints": ["definition", "explanation", "concept_understanding"],
+    "content_hints": ["unclear_term", "product_or_model_mention", "technical_paragraph"],
+    "priority_rules": {
+      "unclear_term": 0.95,
+      "product_or_model_mention": 0.72,
+      "technical_paragraph": 0.74,
+      "chat_message": 0.22,
+      "foreign_text": 0.48
+    },
+    "fallback_rank": 3
+  },
+  "execution": {
+    "mode": "prompt_only",
+    "tools": ["llm_chat"],
+    "streaming": true,
+    "supports_followup": false,
+    "safe_to_interrupt": true,
+    "instruction_file": "instruction.md"
+  },
+  "result": {
+    "type": "summary_text",
+    "supports_copy": true,
+    "supports_replace": false,
+    "supports_open_primary": false,
+    "supports_writeback": false,
+    "supports_regenerate": true,
+    "supports_footer": true
+  },
+  "lifecycle": {
+    "show_loading_in_result_window": true,
+    "hide_status_on_first_delta": true,
+    "reveal_footer_after_completion": false,
+    "defer_supplements_until_content_complete": true
+  },
+  "metadata": {
+    "category": "understanding",
+    "tags": ["understanding", "definition"],
+    "experimental": false,
+    "built_in": true,
+    "stage": "cloud"
+  },
+  "settings": {
+    "default_enabled": true,
+    "user_configurable": true,
+    "stage": "cloud"
+  },
+  "billing": {
+    "class": "pro_included",
+    "required_tier": "pro"
+  }
+}

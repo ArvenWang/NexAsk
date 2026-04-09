@@ -1,0 +1,92 @@
+{
+  "schema_version": "0.1",
+  "id": "schedule",
+  "name": "日程",
+  "version": "0.1.0",
+  "display": {
+    "toolbar_title": "日程",
+    "settings_title": "启用日程动作",
+    "result_title": "日程提醒",
+    "icon": "calendar.badge.plus",
+    "category": "productivity",
+    "priority_tier": "recommended"
+  },
+  "description": {
+    "summary": "从选中文本中识别时间意图，一键创建日历提醒。",
+    "when_to_use": [
+      "选中的文字包含日期、时间、截止日期、会议安排",
+      "需要快速为某个事件设置日历提醒",
+      "提到了预约、提醒、打卡等时间相关动作"
+    ],
+    "not_for": [
+      "翻译外语文本",
+      "查找来源入口",
+      "生成聊天回复"
+    ]
+  },
+  "input": {
+    "supported_contexts": ["selected_text", "screenshot_region", "image_capture"],
+    "preferred_content_types": ["text", "image"],
+    "min_length": 2,
+    "max_length": 4000,
+    "requires_nonempty_selection": true
+  },
+  "routing": {
+    "intent_hints": ["schedule", "reminder", "deadline", "meeting", "appointment"],
+    "content_hints": ["time_reference", "schedule_intent", "deadline_mention"],
+    "priority_rules": {
+      "time_reference": 0.96,
+      "schedule_intent": 0.94,
+      "deadline_mention": 0.92,
+      "chat_message": 0.38,
+      "feedback_request": 0.32,
+      "foreign_text": 0.04,
+      "unclear_term": 0.06,
+      "product_or_model_mention": 0.08,
+      "technical_paragraph": 0.10,
+      "general_text": 0.12
+    },
+    "fallback_rank": 5,
+    "required_content_categories": ["time_reference"]
+  },
+  "execution": {
+    "mode": "prompt_only",
+    "tools": ["llm_chat"],
+    "streaming": true,
+    "supports_followup": false,
+    "safe_to_interrupt": true,
+    "instruction_file": "instruction.md"
+  },
+  "result": {
+    "type": "summary_with_cards",
+    "supports_copy": false,
+    "supports_replace": false,
+    "supports_open_primary": false,
+    "supports_writeback": false,
+    "supports_regenerate": true,
+    "supports_footer": true,
+    "supports_action_cards": true
+  },
+  "lifecycle": {
+    "show_loading_in_result_window": true,
+    "hide_status_on_first_delta": true,
+    "reveal_footer_after_completion": false,
+    "defer_supplements_until_content_complete": false
+  },
+  "metadata": {
+    "category": "productivity",
+    "tags": ["productivity", "calendar", "reminder", "schedule"],
+    "experimental": false,
+    "built_in": true,
+    "stage": "cloud"
+  },
+  "settings": {
+    "default_enabled": true,
+    "user_configurable": true,
+    "stage": "cloud"
+  },
+  "billing": {
+    "class": "pro_included",
+    "required_tier": "pro"
+  }
+}

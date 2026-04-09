@@ -1,0 +1,84 @@
+{
+  "schema_version": "0.1",
+  "id": "trace",
+  "name": "溯源",
+  "version": "0.1.0",
+  "display": {
+    "toolbar_title": "溯源",
+    "settings_title": "启用溯源动作",
+    "result_title": "溯源结果",
+    "icon": "network",
+    "category": "research",
+    "priority_tier": "recommended"
+  },
+  "description": {
+    "summary": "理解用户意图，找到最值得直接打开的官方入口、体验页或原始来源。",
+    "when_to_use": [
+      "文本提到产品、模型、功能、入口或服务",
+      "需要确认最该打开的官网、体验页、文档页或原始出处",
+      "需要系统先理解句子里的主目标实体"
+    ],
+    "not_for": [
+      "纯文本翻译",
+      "直接生成聊天回复"
+    ]
+  },
+  "input": {
+    "supported_contexts": ["selected_text", "screenshot_region", "image_capture"],
+    "preferred_content_types": ["text", "image"],
+    "min_length": 1,
+    "max_length": 12000,
+    "requires_nonempty_selection": true
+  },
+  "routing": {
+    "intent_hints": ["product_lookup", "official_source", "experience_entry", "documentation"],
+    "content_hints": ["product_or_model_mention", "news_or_announcement", "documentation_query", "feature_or_api_lookup"],
+    "priority_rules": {
+      "product_or_model_mention": 0.92,
+      "news_or_announcement": 0.96,
+      "documentation_query": 0.81,
+      "feature_or_api_lookup": 0.79,
+      "chat_message": 0.08
+    },
+    "fallback_rank": 2
+  },
+  "execution": {
+    "mode": "tool_augmented",
+    "tools": ["web_search", "page_fetch", "source_rank", "llm_chat"],
+    "streaming": true,
+    "supports_followup": false,
+    "safe_to_interrupt": true,
+    "instruction_file": "instruction.md"
+  },
+  "result": {
+    "type": "summary_with_cards",
+    "supports_copy": true,
+    "supports_replace": false,
+    "supports_open_primary": true,
+    "supports_writeback": false,
+    "supports_regenerate": true,
+    "supports_footer": true
+  },
+  "lifecycle": {
+    "show_loading_in_result_window": true,
+    "hide_status_on_first_delta": true,
+    "reveal_footer_after_completion": true,
+    "defer_supplements_until_content_complete": true
+  },
+  "metadata": {
+    "category": "research",
+    "tags": ["research", "entry", "official"],
+    "experimental": false,
+    "built_in": true,
+    "stage": "cloud"
+  },
+  "settings": {
+    "default_enabled": true,
+    "user_configurable": true,
+    "stage": "cloud"
+  },
+  "billing": {
+    "class": "pro_included",
+    "required_tier": "pro"
+  }
+}

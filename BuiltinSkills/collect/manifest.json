@@ -1,0 +1,108 @@
+{
+  "schema_version": "0.1",
+  "id": "collect",
+  "name": "采集",
+  "version": "0.1.0",
+  "display": {
+    "toolbar_title": "采集",
+    "settings_title": "启用采集动作",
+    "result_title": "采集结果",
+    "icon": "tray.and.arrow.down",
+    "category": "knowledge",
+    "priority_tier": "secondary"
+  },
+  "description": {
+    "summary": "把当前链接或文件采集到本地知识库，便于后续检索和引用。",
+    "when_to_use": [
+      "想把当前选中的链接或文件资料沉淀进知识库",
+      "选中的是独立链接，希望抓取正文后存档",
+      "在 Finder 中选中了文档，想批量导入知识库"
+    ],
+    "not_for": [
+      "解释概念或技术点",
+      "查找官网、文档入口或出处",
+      "生成聊天回复"
+    ]
+  },
+  "input": {
+    "supported_contexts": [
+      "selected_text",
+      "file_selection",
+      "screenshot_region",
+      "image_capture"
+    ],
+    "preferred_content_types": [
+      "text",
+      "file",
+      "image"
+    ],
+    "min_length": 1,
+    "max_length": 12000,
+    "requires_nonempty_selection": true
+  },
+  "routing": {
+    "intent_hints": [
+      "collect",
+      "archive_reference",
+      "save_to_knowledge_base",
+      "knowledge_ingest"
+    ],
+    "content_hints": [
+      "standalone_url",
+      "embedded_url",
+      "file_selection"
+    ],
+    "priority_rules": {
+      "standalone_url": 0.97,
+      "embedded_url": 0.91,
+      "file_selection": 0.95,
+      "image_file": 0.14
+    },
+    "fallback_rank": 7,
+    "required_content_categories": ["standalone_url", "embedded_url", "file_selection", "image_file"]
+  },
+  "execution": {
+    "mode": "local_only",
+    "tools": [],
+    "streaming": false,
+    "supports_followup": false,
+    "safe_to_interrupt": true,
+    "instruction_file": "instruction.md"
+  },
+  "result": {
+    "type": "summary_with_cards",
+    "supports_copy": false,
+    "supports_replace": false,
+    "supports_open_primary": false,
+    "supports_writeback": false,
+    "supports_regenerate": false,
+    "supports_footer": false,
+    "supports_action_cards": false
+  },
+  "lifecycle": {
+    "show_loading_in_result_window": true,
+    "hide_status_on_first_delta": true,
+    "reveal_footer_after_completion": false,
+    "defer_supplements_until_content_complete": true
+  },
+  "metadata": {
+    "category": "knowledge",
+    "tags": [
+      "knowledge",
+      "collect",
+      "archive"
+    ],
+    "experimental": false,
+    "built_in": true,
+    "stage": "local"
+  },
+  "settings": {
+    "default_enabled": true,
+    "user_configurable": true,
+    "stage": "local"
+  },
+  "billing": {
+    "class": "free",
+    "required_tier": "free"
+  }
+}

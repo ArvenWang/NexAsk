@@ -1,0 +1,110 @@
+{
+  "schema_version": "1.0",
+  "manifest": {
+    "schema_version": "0.1",
+    "id": "summarize",
+    "name": "总结",
+    "version": "1.0.0",
+    "author": "NexHub",
+    "homepage": "https://nefish.net/nexhub",
+    "license": "Proprietary",
+    "display": {
+      "toolbar_title": "总结",
+      "settings_title": "启用总结技能",
+      "result_title": "总结结果",
+      "icon": "text.alignleft",
+      "category": "writing",
+      "priority_tier": "recommended"
+    },
+    "description": {
+      "summary": "把一段选中文本压缩成结构清晰、可快速吸收的短总结。",
+      "when_to_use": ["想快速读懂长段落", "想把说明整理成短摘要"],
+      "not_for": ["需要逐字翻译", "需要保留原始句式"]
+    },
+    "input": {
+      "supported_contexts": ["selected_text"],
+      "preferred_content_types": ["text"],
+      "min_length": 12,
+      "max_length": 12000,
+      "requires_nonempty_selection": true
+    },
+    "routing": {
+      "intent_hints": ["summarize", "summary", "digest"],
+      "content_hints": ["technical_paragraph", "long_quote", "documentation_query"],
+      "priority_rules": {
+        "technical_paragraph": 0.86,
+        "documentation_query": 0.84,
+        "long_quote": 0.78
+      },
+      "fallback_rank": 8
+    },
+    "execution": {
+      "mode": "prompt_only",
+      "locality": "cloud_only",
+      "tools": ["llm_chat"],
+      "streaming": true,
+      "supports_followup": false,
+      "safe_to_interrupt": true,
+      "instruction_file": "instruction.md"
+    },
+    "result": {
+      "type": "summary_text",
+      "supports_copy": true,
+      "supports_replace": false,
+      "supports_open_primary": false,
+      "supports_writeback": false,
+      "supports_regenerate": true,
+      "supports_footer": true,
+      "supports_action_cards": false
+    },
+    "lifecycle": {
+      "show_loading_in_result_window": true,
+      "hide_status_on_first_delta": true,
+      "reveal_footer_after_completion": true,
+      "defer_supplements_until_content_complete": true
+    },
+    "metadata": {
+      "category": "writing",
+      "tags": ["summary", "writing", "official"],
+      "experimental": false,
+      "built_in": false,
+      "stage": "cloud"
+    },
+    "settings": {
+      "title": "启用总结技能",
+      "default_enabled": true,
+      "user_configurable": true,
+      "stage": "cloud"
+    },
+    "billing": {
+      "class": "pro_included",
+      "required_tier": "pro"
+    },
+    "distribution": {
+      "channel": "official_store",
+      "vendor": "nexhub",
+      "package_id": "nexhub.summarize",
+      "signature_required": true
+    },
+    "permissions": {
+      "permissions": ["read_selected_text", "use_cloud_execution"]
+    },
+    "privacy": {
+      "data_leaves_device": true,
+      "retention_summary": "仅将必要文本发往 AI 服务，不在本地长期保存。"
+    },
+    "entitlements": {
+      "required_tier": "pro",
+      "quota_feature": "writing_cloud",
+      "feature_flags": ["skill_summarize"]
+    }
+  },
+  "instruction": "你是 NexHub 的“总结”技能。把选中文本压缩成一段高密度但好读的总结。优先保留结论、结构和关键事实，不要寒暄，不要重复原文句式，不要输出标题列表，除非原文明显是步骤文档且列表更清晰。",
+  "signature": {
+    "key_id": "nexhub-demo-20260316",
+    "vendor": "nexhub",
+    "signed_at": "2026-03-16T02:30:00Z",
+    "payload_sha256": "f499375238eb722388f61416b7dfd6c175ea215319944f385048de12598fbe38",
+    "signature_base64": "MEUCIQDXWUMJhu3wsjxNeDxs8v+DyxJ0iRgHcZpbEypwWahb+QIgQ0Hci3DwJLOJwNiXVv5o9msXXDbL8Fepj/4o2ilFOSk="
+  }
+}

@@ -1,0 +1,92 @@
+{
+  "schema_version": "0.1",
+  "id": "reply",
+  "name": "回复",
+  "version": "0.1.0",
+  "display": {
+    "toolbar_title": "回复",
+    "settings_title": "启用高情商回复动作",
+    "result_title": "高情商回复",
+    "icon": "bubble.left.and.text.bubble.right",
+    "category": "communication",
+    "priority_tier": "recommended"
+  },
+  "description": {
+    "summary": "基于选中文本和知识库资料生成可直接发送的自然回复。",
+    "when_to_use": [
+      "选中的是聊天消息、反馈、请求或沟通语句",
+      "需要直接可发送的回复话术",
+      "需要系统先判断情绪和语气再给回复"
+    ],
+    "not_for": [
+      "找来源入口",
+      "解释技术概念"
+    ]
+  },
+  "input": {
+    "supported_contexts": ["selected_text", "screenshot_region", "image_capture"],
+    "preferred_content_types": ["text", "image"],
+    "min_length": 1,
+    "max_length": 8000,
+    "requires_nonempty_selection": true
+  },
+  "routing": {
+    "intent_hints": ["reply", "chat_response", "feedback_reply"],
+    "content_hints": ["chat_message", "feedback_request", "long_quote"],
+    "priority_rules": {
+      "chat_message": 0.97,
+      "feedback_request": 0.91,
+      "long_quote": 0.74,
+      "foreign_text": 0.08,
+      "product_or_model_mention": 0.12
+    },
+    "fallback_rank": 4,
+    "requires_message_writeback": true,
+    "message_writeback_bonus": 0.34
+  },
+  "execution": {
+    "mode": "prompt_only",
+    "tools": ["llm_chat"],
+    "knowledge_base": {
+      "enabled": true,
+      "max_matches": 4,
+      "include_source_cards": true
+    },
+    "streaming": true,
+    "supports_followup": false,
+    "safe_to_interrupt": true,
+    "instruction_file": "instruction.md"
+  },
+  "result": {
+    "type": "response_text",
+    "supports_copy": true,
+    "supports_replace": false,
+    "supports_open_primary": false,
+    "supports_writeback": true,
+    "supports_regenerate": true,
+    "supports_footer": true,
+    "supports_action_cards": true
+  },
+  "lifecycle": {
+    "show_loading_in_result_window": true,
+    "hide_status_on_first_delta": true,
+    "reveal_footer_after_completion": true,
+    "defer_supplements_until_content_complete": true
+  },
+  "metadata": {
+    "category": "communication",
+    "tags": ["communication", "reply"],
+    "experimental": false,
+    "built_in": true,
+    "stage": "cloud"
+  },
+  "settings": {
+    "default_enabled": true,
+    "user_configurable": true,
+    "stage": "cloud"
+  },
+  "billing": {
+    "class": "pro_included",
+    "required_tier": "pro"
+  }
+}

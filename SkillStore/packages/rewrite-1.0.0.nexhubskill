@@ -1,0 +1,110 @@
+{
+  "schema_version": "1.0",
+  "manifest": {
+    "schema_version": "0.1",
+    "id": "rewrite",
+    "name": "改写",
+    "version": "1.0.0",
+    "author": "NexHub",
+    "homepage": "https://nefish.net/nexhub",
+    "license": "Proprietary",
+    "display": {
+      "toolbar_title": "改写",
+      "settings_title": "启用改写技能",
+      "result_title": "改写结果",
+      "icon": "wand.and.stars",
+      "category": "writing",
+      "priority_tier": "recommended"
+    },
+    "description": {
+      "summary": "把原文改写得更清晰、自然、适合直接发送或继续编辑。",
+      "when_to_use": ["想把一句话说得更顺", "想润色短消息和文案"],
+      "not_for": ["需要保持逐字不变", "需要翻译成另一种语言"]
+    },
+    "input": {
+      "supported_contexts": ["selected_text"],
+      "preferred_content_types": ["text"],
+      "min_length": 4,
+      "max_length": 8000,
+      "requires_nonempty_selection": true
+    },
+    "routing": {
+      "intent_hints": ["rewrite", "polish", "rephrase"],
+      "content_hints": ["chat_message", "writing_task", "technical_paragraph"],
+      "priority_rules": {
+        "writing_task": 0.9,
+        "chat_message": 0.82,
+        "technical_paragraph": 0.62
+      },
+      "fallback_rank": 9
+    },
+    "execution": {
+      "mode": "prompt_only",
+      "locality": "cloud_only",
+      "tools": ["llm_chat"],
+      "streaming": true,
+      "supports_followup": false,
+      "safe_to_interrupt": true,
+      "instruction_file": "instruction.md"
+    },
+    "result": {
+      "type": "plain_text_with_replace",
+      "supports_copy": true,
+      "supports_replace": true,
+      "supports_open_primary": false,
+      "supports_writeback": false,
+      "supports_regenerate": true,
+      "supports_footer": true,
+      "supports_action_cards": false
+    },
+    "lifecycle": {
+      "show_loading_in_result_window": true,
+      "hide_status_on_first_delta": true,
+      "reveal_footer_after_completion": true,
+      "defer_supplements_until_content_complete": true
+    },
+    "metadata": {
+      "category": "writing",
+      "tags": ["rewrite", "writing", "official"],
+      "experimental": false,
+      "built_in": false,
+      "stage": "cloud"
+    },
+    "settings": {
+      "title": "启用改写技能",
+      "default_enabled": true,
+      "user_configurable": true,
+      "stage": "cloud"
+    },
+    "billing": {
+      "class": "pro_included",
+      "required_tier": "pro"
+    },
+    "distribution": {
+      "channel": "official_store",
+      "vendor": "nexhub",
+      "package_id": "nexhub.rewrite",
+      "signature_required": true
+    },
+    "permissions": {
+      "permissions": ["read_selected_text", "use_cloud_execution"]
+    },
+    "privacy": {
+      "data_leaves_device": true,
+      "retention_summary": "仅将必要文本发往 AI 服务，不在本地长期保存。"
+    },
+    "entitlements": {
+      "required_tier": "pro",
+      "quota_feature": "writing_cloud",
+      "feature_flags": ["skill_rewrite"]
+    }
+  },
+  "instruction": "你是 NexHub 的“改写”技能。保持原意不变，把用户选中的文字改写得更清晰、流畅、自然、适合直接使用。默认输出一个最终版本，不要加解释、标题、前言或选项列表。",
+  "signature": {
+    "key_id": "nexhub-demo-20260316",
+    "vendor": "nexhub",
+    "signed_at": "2026-03-16T02:30:00Z",
+    "payload_sha256": "26b1ec4f85342a8e7488af471688f7566712c0123a33696f84eac67256a15944",
+    "signature_base64": "MEYCIQDQP2Np5Ddy55ZN9VbiWz8Bw7rIZj6Y55n/9QCk1FN4egIhAIJZTY8g6opo3sVx4Kmnq1Aq8CwhKIyFcMDH1LtGJivp"
+  }
+}
