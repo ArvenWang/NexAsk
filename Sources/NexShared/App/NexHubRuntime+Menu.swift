@@ -15,6 +15,14 @@ extension NexHubRuntime {
         let menu = NSMenu()
         statusMenu = menu
 
+        if productProfile.supportsConversationMenuBarEntry {
+            menu.addItem(makeMenuItem(
+                L10n.text(zhHans: "新建对话", en: "New Conversation"),
+                action: #selector(openNewConversation)
+            ))
+            menu.addItem(.separator())
+        }
+
         if productProfile.supportsTextSelectionEntry {
             let autoItem = NSMenuItem(
                 title: L10n.text(zhHans: "启用划词", en: "Enable text selection"),
@@ -150,6 +158,10 @@ extension NexHubRuntime {
         alert.alertStyle = .informational
         alert.addButton(withTitle: L10n.text(zhHans: "确定", en: "OK"))
         alert.runModal()
+    }
+
+    @objc func openNewConversation() {
+        _ = productExperienceController.presentPrimaryStatusItemExperience(anchorFrame: statusItemAnchorFrame())
     }
 
     @objc func toggleAutoToolbar() {

@@ -134,6 +134,12 @@ enum CommerceRedemptionResult {
 final class CommerceService {
     static let shared = CommerceService()
 
+    static let directSession: URLSession = {
+        let config = URLSessionConfiguration.default
+        config.connectionProxyDictionary = [:]
+        return URLSession(configuration: config)
+    }()
+
     private enum CommerceSettingKey {
         static let entitlementSnapshot = "commerce.entitlementSnapshot"
         static let redeemedInvites = "commerce.redeemedInvites"
@@ -157,7 +163,7 @@ final class CommerceService {
     init(
         defaults: UserDefaults = .standard,
         nowProvider: @escaping () -> Date = Date.init,
-        session: URLSession = .shared,
+        session: URLSession = CommerceService.directSession,
         secretsStore: any SecretStoring = SecretsStore.shared
     ) {
         self.defaults = defaults
@@ -191,9 +197,17 @@ final class CommerceService {
         guard !didStart else { return }
         didStart = true
         Task {
-            _ = try? await ensureRegisteredDevice()
-            _ = await refreshEntitlements()
-            _ = await ManagedAIConfigurationService.shared.refreshIfPossible()
+            let logger = DiagnosticsLogger.shared
+            do {
+                let token = try await ensureRegisteredDevice()
+                logger.log("commerce", "device_registered token_length=\(token.count)")
+            } catch {
+                logger.log("commerce", "device_register_failed error=\(error)")
+            }
+            let entOK = await refreshEntitlements()
+            logger.log("commerce", "entitlements_refreshed ok=\(entOK)")
+            let aiOK = await ManagedAIConfigurationService.shared.refreshIfPossible()
+            logger.log("commerce", "ai_config_refreshed ok=\(aiOK)")
         }
     }
 

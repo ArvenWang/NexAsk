@@ -482,13 +482,15 @@ final class SettingsWindowController: NSWindowController, NSTextFieldDelegate, N
             return productProfile.supportsLearningTab
         case .automation:
             return productProfile.supportsAutomationTab
-        case .startup, .ai:
+        case .startup:
             return false
+        case .ai:
+            return true
         }
     }
 
     private func resolvedAvailableTab(_ tab: SettingsTab) -> SettingsTab {
-        let resolvedTab: SettingsTab = (tab == .startup || tab == .ai) ? .general : tab
+        let resolvedTab: SettingsTab = tab == .startup ? .general : tab
         if isTabAvailable(resolvedTab) {
             return resolvedTab
         }
@@ -721,6 +723,7 @@ final class SettingsWindowController: NSWindowController, NSTextFieldDelegate, N
         if productProfile.supportsShortcutsTab {
             tabItems.append(makeShortcutsTab())
         }
+        tabItems.append(makeAITab())
         tabItems.append(makePrivacyTab())
         tabItems.append(makeMembershipTab())
         tabItems.append(makeKnowledgeBaseTab())

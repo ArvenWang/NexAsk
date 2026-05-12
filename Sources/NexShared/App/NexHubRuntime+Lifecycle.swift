@@ -48,7 +48,9 @@ extension NexHubRuntime {
 
         commerceService.start()
         ReplyKnowledgeBaseAutoSyncCoordinator.shared.start()
-        _ = permissionManager.requestAccessibilityTrust(prompt: false)
+        let shouldPromptAccessibility = productProfile.requiresAccessibilityPermission
+            && !permissionManager.isAccessibilityTrusted()
+        _ = permissionManager.requestAccessibilityTrust(prompt: shouldPromptAccessibility)
         if productProfile.supportsScreenshotEntry {
             screenshotSelectionController.prepare()
             logScreenshotPlatformBaseline()

@@ -60,7 +60,7 @@ package final class ManagedAIConfigurationService {
 
     init(
         defaults: UserDefaults = .standard,
-        session: URLSession = .shared,
+        session: URLSession = CommerceService.directSession,
         commerceService: CommerceService = .shared
     ) {
         self.defaults = defaults
@@ -157,21 +157,31 @@ package final class ManagedAIConfigurationService {
     }
 
     package func configuration() async throws -> LLMRequestConfiguration {
+        let logger = DiagnosticsLogger.shared
         if let snapshot = currentSnapshot(),
            !isStale(snapshot),
            let current = currentConfiguration() {
+            logger.log("managed.ai", "config hit_cache provider=\(snapshot.provider) model=\(snapshot.model) enabled=\(snapshot.enabled)")
             return current
         }
+
+        let cachedSnapshot = currentSnapshot()
+        let hasDeviceToken = commerceService.currentDeviceToken() != nil
+        logger.log("managed.ai", "config cache_miss cached_snapshot=\(cachedSnapshot != nil) stale=\(cachedSnapshot.map { isStale($0) } ?? true) has_device_token=\(hasDeviceToken)")
 
         do {
             let snapshot = try await refresh()
             guard snapshot.enabled,
                   let current = currentConfiguration() else {
+                logger.log("managed.ai", "config refresh_ok but enabled=\(snapshot.enabled) has_current=\(currentConfiguration() != nil)")
                 throw ManagedAIConfigurationError.unavailable
             }
+            logger.log("managed.ai", "config refresh_ok provider=\(snapshot.provider) model=\(snapshot.model)")
             return current
         } catch {
+            logger.log("managed.ai", "config refresh_failed error=\(error)")
             if let current = currentConfiguration() {
+                logger.log("managed.ai", "config fallback_to_cached")
                 return current
             }
             throw error

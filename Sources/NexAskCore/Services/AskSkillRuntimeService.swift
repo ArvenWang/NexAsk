@@ -118,8 +118,17 @@ final class AskSkillRuntimeService {
             isContinuation: request.messages.count > 1,
             responseLanguage: request.responseLanguage
         )
-        guard let configuration = try? await aiConfigurationProvider(),
-              !configuration.apiKey.isEmpty else {
+        let configuration: LLMRequestConfiguration
+        do {
+            let resolved = try await aiConfigurationProvider()
+            guard !resolved.apiKey.isEmpty else {
+                diagnosticsLogger.log("ask.session", "session=\(request.metadata.sessionID) config_failed reason=empty_api_key provider=\(resolved.provider) model=\(resolved.model)")
+                struct ConfigError: Error { let reason: String }
+                throw ConfigError(reason: "empty_api_key")
+            }
+            configuration = resolved
+        } catch {
+            diagnosticsLogger.log("ask.session", "session=\(request.metadata.sessionID) config_failed error=\(error)")
             let response = AskSessionResponse(
                 message: serviceUnavailable,
                 cards: [],

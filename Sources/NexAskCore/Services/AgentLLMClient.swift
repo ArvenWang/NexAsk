@@ -36,8 +36,14 @@ final class AgentLLMClient {
     private let session: URLSession
     private let diagnosticsLogger: DiagnosticsLogger
 
+    private static let directSession: URLSession = {
+        let config = URLSessionConfiguration.default
+        config.connectionProxyDictionary = [:]
+        return URLSession(configuration: config)
+    }()
+
     init(
-        session: URLSession = .shared,
+        session: URLSession = AgentLLMClient.directSession,
         diagnosticsLogger: DiagnosticsLogger = .shared
     ) {
         self.session = session

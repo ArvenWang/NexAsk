@@ -21,9 +21,9 @@ package enum AppProductProfile: String {
 
     package var statusItemPrimaryAction: StatusItemPrimaryAction {
         switch self {
-        case .unified, .nexask:
+        case .unified:
             return .conversation
-        case .nexhub:
+        case .nexhub, .nexask:
             return .menu
         }
     }
@@ -43,8 +43,8 @@ package enum AppProductProfile: String {
             )
         case .nexask:
             return L10n.format(
-                zhHans: "控制 %@ 的语言和基础运行选项。",
-                en: "Control %@ language and core runtime options.",
+                zhHans: "控制 %@ 的画框对话入口和基础运行选项。",
+                en: "Control %@'s conversation box entry and core runtime options.",
                 AppBrand.displayName
             )
         }
@@ -64,8 +64,8 @@ package enum AppProductProfile: String {
             )
         case .nexask:
             return L10n.text(
-                zhHans: "说明：\n1) 当前产品不提供截图快捷键\n2) 如需进入对话，请使用状态栏入口或产品内的主入口",
-                en: "Notes:\n1) This product does not expose a screenshot shortcut\n2) Use the menu bar entry or the in-product primary entry to start a conversation"
+                zhHans: "说明：\n1) 按住 Alt 拖拽鼠标可在任意位置画框开启对话\n2) 也可通过状态栏菜单「新建对话」开启\n3) Esc 可关闭当前对话窗口",
+                en: "Notes:\n1) Hold Alt and drag anywhere to draw a box and start a conversation\n2) You can also start from the menu bar via 'New Conversation'\n3) Press Esc to close the conversation window"
             )
         }
     }

@@ -92,7 +92,7 @@ package struct LLMRequestConfiguration {
 final class LLMClient {
     private let session: URLSession
 
-    init(session: URLSession = .shared) {
+    init(session: URLSession = CommerceService.directSession) {
         self.session = session
     }
 
